@@ -1,4 +1,4 @@
-const BASE_URL = "https://dummyjson.com/todos";
+const API_URL = "https://dummyjson.com/todos";
 
 export default class TodoModel {
   constructor() {
@@ -6,8 +6,9 @@ export default class TodoModel {
   }
 
   async fetchTodos() {
-    const response = await fetch(BASE_URL);
+    const response = await fetch(API_URL);
     const data = await response.json();
+
     this.todos = data.todos;
     return this.todos;
   }
