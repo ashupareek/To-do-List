@@ -70,4 +70,22 @@ export default class TodoModel {
 
     this.todos = this.todos.filter((todoItem) => todoItem.id !== todoId);
   }
+
+  async updateTodo(todoId, updatedText) {
+    const selectedTodo = this.todos.find((todoItem) => todoItem.id === todoId);
+
+    if (!selectedTodo || !updatedText) return;
+
+    await fetch(`${API_URL}/${todoId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        todo: updatedText
+      })
+    });
+
+    selectedTodo.todo = updatedText;
+  }
 }

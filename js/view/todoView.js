@@ -17,31 +17,41 @@ export default class TodoView {
 
   createTodoItem(todoItem) {
     const listItem = document.createElement("li");
-
     listItem.className = "todo-item";
     listItem.dataset.id = todoItem.id;
+
+    const textWrapper = document.createElement("div");
+    textWrapper.className = "todo-text-wrapper";
 
     const todoText = document.createElement("span");
     todoText.className = "todo-text";
     todoText.textContent = todoItem.todo;
+
+    const editInput = document.createElement("input");
+    editInput.className = "edit-input hidden";
+    editInput.type = "text";
+    editInput.value = todoItem.todo;
+
+    textWrapper.append(todoText, editInput);
 
     const actionsContainer = document.createElement("div");
     actionsContainer.className = "todo-actions";
 
     const toggleButton = this.createActionButton(
       "toggle-btn",
-      todoItem.completed ? "<-" : "->",
+      todoItem.completed ? "←" : "→",
     );
 
+    const editButton = this.createActionButton("edit-btn", "Edit");
     const deleteButton = this.createActionButton("delete-btn", "Delete");
 
-    actionsContainer.append(toggleButton, deleteButton);
-    listItem.append(todoText, actionsContainer);
+    actionsContainer.append(toggleButton, editButton, deleteButton);
+    listItem.append(textWrapper, actionsContainer);
 
     return listItem;
   }
 
-  render(todoItems){
+  render(todoItems) {
     this.pendingList.replaceChildren();
     this.completedList.replaceChildren();
 
@@ -66,9 +76,9 @@ export default class TodoView {
 
       handler(inputValue);
       this.input.value = "";
-    });    
+    });
   }
-  
+
   bindTodoActions(handler) {
     const clickHandler = (event) => {
       const clickedElement = event.target;
@@ -84,6 +94,10 @@ export default class TodoView {
 
       if (clickedElement.classList.contains("delete-btn")) {
         handler("delete", todoId);
+      }
+
+      if (clickedElement.classList.contains("edit-btn")) {
+        handler("edit", todoId, todoItemElement);
       }
     };
 
