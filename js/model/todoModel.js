@@ -1,4 +1,5 @@
 const API_URL = "https://dummyjson.com/todos";
+const STORAGE_KEY = "todo-mvc-items";
 
 export default class TodoModel {
   constructor() {
@@ -7,15 +8,41 @@ export default class TodoModel {
   }
 
   async fetchTodos() {
+    const savedTodos = this.getTodosFromStorage();
+
+    if (savedTodos.length > 0) {
+      this.todos = savedTodos;
+      return this.todos;
+    }
+
     const response = await fetch(API_URL);
     const data = await response.json();
 
     this.todos = data.todos;
+    this.saveTodosToStorage();
+
     return this.todos;
   }
 
   getTodos() {
     return this.todos;
+  }
+
+  getTodosFromStorage() {
+    const storedValue = localStorage.getItem(STORAGE_KEY);
+
+    if (!storedValue) return [];
+
+    try {
+      return JSON.parse(storedValue);
+    } catch (error) {
+      console.error("Could not parse todos from localStorage", error);
+      return [];
+    }
+  }
+
+  saveTodosToStorage() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.todos));
   }
 
   async addTodo(todoText) {
@@ -39,6 +66,7 @@ export default class TodoModel {
     };
 
     this.todos.unshift(newTodo);
+    this.saveTodosToStorage();
 
     return newTodo;
   }
@@ -61,6 +89,7 @@ export default class TodoModel {
     });
 
     selectedTodo.completed = updatedCompletedValue;
+    this.saveTodosToStorage();
   }
 
   async deleteTodo(todoId) {
@@ -69,6 +98,7 @@ export default class TodoModel {
     });
 
     this.todos = this.todos.filter((todoItem) => todoItem.id !== todoId);
+    this.saveTodosToStorage();
   }
 
   async updateTodo(todoId, updatedText) {
@@ -87,5 +117,6 @@ export default class TodoModel {
     });
 
     selectedTodo.todo = updatedText;
+    this.saveTodosToStorage();
   }
 }
