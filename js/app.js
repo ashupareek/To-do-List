@@ -1,12 +1,9 @@
 import TodoModel from "./model/todoModel.js";
 import TodoView from "./view/todoView.js";
+import TodoController from "./controller/todoController.js";
 
 const model = new TodoModel();
 const view = new TodoView();
+const controller = new TodoController(model, view);
 
-async function startApp() {
-  const todoItems = await model.fetchTodos();
-  view.render(todoItems);
-}
-
-startApp();
+controller.init();

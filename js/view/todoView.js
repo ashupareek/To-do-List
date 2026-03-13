@@ -1,5 +1,7 @@
 export default class TodoView {
   constructor() {
+    this.form = document.getElementById("todo-form");
+    this.input = document.getElementById("todo-input");
     this.pendingList = document.getElementById("pending-list");
     this.completedList = document.getElementById("completed-list");
   }
@@ -30,6 +32,18 @@ export default class TodoView {
       } else {
         this.pendingList.append(todoElement);
       }
+    });
+  }
+  bindAddTodo(handler) {
+    this.form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const inputValue = this.input.value.trim();
+
+      if (!inputValue) return;
+
+      handler(inputValue);
+      this.input.value = "";
     });
   }
 }
