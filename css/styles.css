@@ -71,11 +71,44 @@ body {
     margin: 0;
 }
 .todo-item {
-  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
   border-bottom: 1px solid #e5e7eb;
-  font-size: 14px;
 }
 
 .todo-item:last-child {
   border-bottom: none;
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 14px;
+  color: #222;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.todo-actions button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.toggle-btn {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.delete-btn {
+  background: #fee2e2;
+  color: #b91c1c;
 }
