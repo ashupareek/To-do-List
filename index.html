@@ -9,8 +9,27 @@
 </head>
 <body>
     <div class="app">
-        <h1>To-Do MVC List</h1>
-    </div>
-    
+        <header class="app-header">
+            <h1>To-Do MVC List</h1>
+
+            <form class="todo-form" id="todo-form">
+                <div>
+                <input type="text" id="todo-input" placeholder="To-do item" autocomplete="off">
+                <button type="submit">Add</button>
+                </div>
+            </form>
+        </header>
+
+        <main class="todo-sections">
+            <section class="todo-column"> 
+                <h2>Pending Tasks</h2>
+                <ul id="pending-list" class="todo-list"></ul> 
+            </section>
+            <section class="todo-column">
+                <h2>Completed Tasks</h2>
+                <ul id="completed-list" class="todo-list"></ul>
+            </section>
+        </main>        
+    </div>    
 </body>
 </html>
